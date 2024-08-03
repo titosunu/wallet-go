@@ -70,3 +70,13 @@ func (u *userService) ValidateToken(ctx context.Context, token string) (payloads
 		Username: user.Username,
 	}, nil
 }
+
+// Register implements core.UserService.
+func (u *userService) Register(ctx context.Context, req payloads.UserRegisterRequest) (payloads.UserRegisterResponse, error) {
+	panic("unimplemented")
+}
+
+// ValidateOTP implements core.UserService.
+func (u *userService) ValidateOTP(ctx context.Context, req payloads.ValidateOtpRequest) error {
+	panic("unimplemented")
+}
