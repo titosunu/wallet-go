@@ -73,7 +73,30 @@ func (u *userService) ValidateToken(ctx context.Context, token string) (payloads
 
 // Register implements core.UserService.
 func (u *userService) Register(ctx context.Context, req payloads.UserRegisterRequest) (payloads.UserRegisterResponse, error) {
-	panic("unimplemented")
+	exist, err := u.userRepository.FindByUsername(ctx, req.Username)
+	if err != nil {
+		return payloads.UserRegisterResponse{}, err
+	}
+
+	if exist != (core.User{}) {
+		return payloads.UserRegisterResponse{}, core.ErrUsernameTaken
+	}
+	
+	user := core.User{
+		FullName: req.FullName,
+		Phone: req.Phone,
+		Email: req.Email,
+		Password: req.Password,
+	}
+
+	err = u.userRepository.Insert(ctx, &user)
+	if err != nil {
+		return payloads.UserRegisterResponse{}, err
+	}
+
+	otpCode := utils.GenerateRandomNumber(4)
+	referenceId := utils.GenerateRandomString(16)
+	//...
 }
 
 // ValidateOTP implements core.UserService.

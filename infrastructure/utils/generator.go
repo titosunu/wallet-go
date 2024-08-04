@@ -14,3 +14,13 @@ func GenerateRandomString(value int) string {
 	}
 	return string(letters)
 }
+
+func GenerateRandomNumber(value int) string {
+	rand.Seed(time.Now().UnixNano())
+	var charsets = []rune("0123456789")
+	letters := make([]rune, value)
+	for i := range letters {
+		letters[i] = charsets[rand.Intn(len(charsets))]
+	}
+	return string(letters)
+}
